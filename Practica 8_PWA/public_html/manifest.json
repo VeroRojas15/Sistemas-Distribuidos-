@@ -1,0 +1,21 @@
+{
+  "name": "Agenda de Tareas",
+  "short_name": "Agenda",
+  "description": "Una agenda de tareas elegante y minimalista en PWA.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#fdf6f0",
+  "theme_color": "#f6c9cc",
+  "icons": [
+    {
+      "src": "img/192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "img/512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

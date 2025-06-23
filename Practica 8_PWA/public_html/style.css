@@ -1,0 +1,519 @@
+/* =====================
+   Estilos base
+===================== */
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #fdf6f0;
+  color: #333;
+  overflow-x: hidden;
+  position: relative;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* =====================
+   Pantalla de Bienvenida
+===================== */
+#welcome-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 99999;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 0.3s ease-in-out;
+  background-image: url('img/fondo.png'); 
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  overflow: hidden;
+}
+
+.welcome-content {
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(12px);
+  border-radius: 20px;
+  padding: 4rem 6rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  animation: slideUp 0.6s ease-in-out;
+}
+
+.welcome-logo {
+  width: 200px;
+  height: auto;
+  margin-bottom: 1rem;
+}
+
+#welcome-screen h1 {
+  font-size: 2.8rem;
+  color: #d65a75;
+  margin: 0;
+}
+
+#welcome-screen .slogan {
+  font-size: 1.4rem;
+  color: #555;
+  margin: 1rem 0;
+}
+
+#welcome-screen button {
+  padding: 15px 75px;
+  font-size: 1.2rem;
+  background-color: #f6c9cc;
+  border: none;
+  color: white;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s ease;
+}
+
+#welcome-screen button:hover {
+  background-color: #e5b2b4;
+  transform: scale(1.05);
+}
+
+/* =====================
+   Barra lateral de meses
+===================== */
+.month-tabs {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1rem 0.2rem;
+  z-index: 10;
+}
+
+.month-tab {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  text-align: center;
+  padding: 0.95rem 0.4rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: white;
+  border-radius: 4px 4px 0 0;
+  margin: 2px 0;
+  width: 1.6rem;
+}
+
+/* Colores personalizados */
+.month-tab:nth-child(1)  { background: #f28ba1; }
+.month-tab:nth-child(2)  { background: #f5d3a1; }
+.month-tab:nth-child(3)  { background: #8dc5d2; }
+.month-tab:nth-child(4)  { background: #c8e6c9; }
+.month-tab:nth-child(5)  { background: #f3b5c6; }
+.month-tab:nth-child(6)  { background: #cfd8dc; }
+.month-tab:nth-child(7)  { background: #ffccbc; }
+.month-tab:nth-child(8)  { background: #ce93d8; }
+.month-tab:nth-child(9)  { background: #a5d6a7; }
+.month-tab:nth-child(10) { background: #b0bec5; }
+.month-tab:nth-child(11) { background: #ef9a9a; }
+.month-tab:nth-child(12) { background: #90caf9; }
+
+/* Responsive: ocultar en pantallas pequeñas */
+@media (max-width: 700px) {
+  .month-tabs {
+    display: none;
+  }
+}
+
+/* =====================
+    Encabezado
+===================== */
+header {
+  text-align: center;
+  background-image: url('img/fondo.avif');
+  background-size: cover;
+  background-position: center;
+  padding: 2rem;
+  border-bottom: 2px solid #e5b2b4;
+  color: black;
+}
+
+h1 {
+  margin: 0;
+  font-weight: 600;
+}
+
+/* =====================
+   Navegación Mes
+===================== */
+.month-nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.month-nav button {
+  background-color: #f6c9cc;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  color: white;
+  transition: background-color 0.3s;
+}
+
+.month-nav button:hover {
+  background-color: #e5b2b4;
+}
+
+/* =====================
+   📆 Calendario
+===================== */
+#calendar {
+  padding: 1rem;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr); /* Siempre 7 columnas */
+  gap: 10px;
+}
+
+/* Día individual */
+.day {
+  background-color: white;
+  border: 1px solid #ccc;
+  padding: 10px;
+  min-height: 150px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+}
+
+.day.empty {
+  background-color: transparent;
+  border: none;
+  min-height: 0;
+  padding: 0;
+}
+
+.day-header {
+  background-color: #f6c9cc;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  padding: 6px;
+  border-radius: 6px;
+  margin-bottom: 6px;
+  font-size: 0.9rem;
+}
+
+/* =====================
+   📝 Formulario de tarea
+===================== */
+#add-task {
+  background-color: white;
+  padding: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+#task-form input, #task-form button,#task-form select {
+  padding: 8px;
+  font-size: 1rem;
+  flex: 1 1 100%;
+  min-width: 120px;
+  box-sizing: border-box;
+}
+
+#task-form input[type="date"] {
+  width: 150px;
+}
+
+/* =====================
+   ✅ Tareas
+===================== */
+.task {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 5px 0;
+  padding: 5px;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: opacity 0.3s, transform 0.3s;
+}
+
+.task:hover {
+  opacity: 0.8;
+  transform: scale(1.02);
+}
+
+.task.personal {
+  background-color: #f7d4e3;
+  border-left: 4px solid #ff70a6;
+}
+.task.trabajo {
+  background-color: #cde2f2;
+  border-left: 4px solid #005187;
+}
+.task.escuela {
+  background-color: #d8e5c4;
+  border-left: 4px solid #6a951f;
+}
+.task.otro {
+  background-color: #fce3b8;
+  border-left: 4px solid #ffb347;
+}
+.task.completed {
+  text-decoration: line-through;
+  background-color: #f8d7da;
+  border-left: 4px solid #842029;
+}
+
+.task-actions {
+  display: flex;
+  gap: 5px;
+}
+.task-actions button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.task span {
+  display: block;
+  word-wrap: break-word;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+}
+
+.task-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+
+.task-menu-toggle {
+  cursor: pointer;
+  padding: 0 8px;
+  font-size: 1.2rem;
+  user-select: none;
+}
+
+.task-menu {
+  position: absolute;
+  right: 0;
+  top: 120%;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  min-width: 130px;
+}
+
+.task-menu.hidden {
+  display: none;
+}
+
+.task-menu button {
+  padding: 10px;
+  background: none;
+  border: none;
+  text-align: left;
+  width: 100%;
+  cursor: pointer;
+}
+
+.task-menu button:hover {
+  background-color: #f0f0f0;
+}
+
+.task {
+  position: relative;
+}
+
+.task[data-notes]:hover::after {
+  content: attr(data-notes);
+  position: absolute;
+  top: -10px;
+  left: 100%;
+  background: #333;
+  color: #fff;
+  font-size: 0.75rem;
+  padding: 6px 10px;
+  border-radius: 6px;
+  white-space: pre-wrap;
+  z-index: 1000;
+  max-width: 200px;
+}
+
+
+
+/* =====================
+   📱 Adaptación móvil: mostrar punto de color
+===================== */
+@media (max-width: 600px) {
+  .task {
+    position: relative;
+    padding: 6px;
+    justify-content: center;
+  }
+
+  .task span,
+  .task-actions {
+    display: none;
+  }
+
+  .task::before {
+    content: '';
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+
+  .task.personal::before { background-color: #ff70a6; }
+  .task.trabajo::before  { background-color: #005187; }
+  .task.escuela::before  { background-color: #6a951f; }
+  .task.otro::before     { background-color: #ffb347; }
+  .task.completed::before { background-color: #842029; }
+}
+
+/* =====================
+   🧩 Modales
+===================== */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.modal-content {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  text-align: center;
+  animation: slideUp 0.4s ease-in-out;
+}
+
+.modal-content input, .modal-content select {
+  padding: 8px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  width: 100%;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 1rem;
+}
+
+.save-btn {
+  background-color: #f6c9cc;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.save-btn:hover {
+  background-color: #e5b2b4;
+}
+
+.cancel-btn {
+  background-color: #ccc;
+  color: #333;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.cancel-btn:hover {
+  background-color: #bbb;
+}
+
+/* =====================
+   🔔 Banner actualización
+===================== */
+.update-banner {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #f6c9cc;
+  color: #333;
+  padding: 1rem 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  z-index: 9999;
+  font-size: 1rem;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.update-banner button {
+  background: white;
+  border: 1px solid #d993a4;
+  padding: 0.4rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.update-banner button:hover {
+  background-color: #ffe9ec;
+}
+
+/* =====================
+   🎞️ Animaciones
+===================== */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}

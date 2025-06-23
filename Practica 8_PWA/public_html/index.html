@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MI Agenda</title>
+
+  <!-- Estilos -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Icono para la app (favicon) -->
+  <link rel="icon" href="img/192x192.png" type="image/png">
+
+  <!-- Manifest PWA -->
+  <link rel="manifest" href="manifest.json">
+
+  <!-- Script de lógica -->
+  <script defer src="app.js"></script>
+
+  <!-- Registro de Service Worker -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js').then(reg => {
+        console.log('✅ SW registrado');
+        reg.addEventListener('updatefound', () => {
+          const newWorker = reg.installing;
+          newWorker.addEventListener('statechange', () => {
+            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+              const banner = document.getElementById('update-notification');
+              banner.classList.remove('hidden');
+              document.getElementById('reload-btn').addEventListener('click', () => {
+                newWorker.postMessage({ action: 'skipWaiting' });
+              });
+            }
+          });
+        });
+      });
+
+      let refreshing = false;
+      navigator.serviceWorker.addEventListener('controllerchange', () => {
+        if (!refreshing) {
+          window.location.reload();
+          refreshing = true;
+        }
+      });
+    }
+  </script>
+</head>
+
+<body>
+  <!-- 👋 Pantalla de bienvenida -->
+  <div id="welcome-screen">
+    <!-- Barras laterales estilo agenda física -->
+    <div class="month-tabs">
+      <div class="month-tab">Ene</div>
+      <div class="month-tab">Feb</div>
+      <div class="month-tab">Mar</div>
+      <div class="month-tab">Abr</div>
+      <div class="month-tab">May</div>
+      <div class="month-tab">Jun</div>
+      <div class="month-tab">Jul</div>
+      <div class="month-tab">Ago</div>
+      <div class="month-tab">Sep</div>
+      <div class="month-tab">Oct</div>
+      <div class="month-tab">Nov</div>
+      <div class="month-tab">Dic</div>
+    </div>
+
+    <div class="welcome-content">
+      <img src="img/512x512.png" alt="Logo de MI Agenda" class="welcome-logo">
+      <h1>Mi Agenda</h1>
+      <p class="slogan">Organiza tu día con estilo.</p>
+      <button id="start-btn">Comenzar</button>
+    </div>
+  </div>
+
+  <!-- 🔝 Encabezado -->
+  <header>
+    <h1>Agenda</h1>
+    <div class="month-nav">
+      <button id="prev-month">◀</button>
+      <h2 id="current-month"></h2>
+      <button id="next-month">▶</button>
+    </div>
+  </header>
+
+  <!-- 📝 Formulario de tarea -->
+  <section id="add-task">
+    <form id="task-form">
+      <input type="text" id="task-input" placeholder="Nueva tarea..." required>
+      <input type="date" id="task-date" required>
+      <input type="time" id="task-time" required>
+      <select id="task-tag">
+        <option value="personal">Personal</option>
+        <option value="trabajo">Trabajo</option>
+        <option value="escuela">Escuela</option>
+        <option value="otro">Otro</option>
+      </select>
+      <textarea id="task-notes" placeholder="Notas adicionales..."></textarea>
+      <button type="submit">Agregar</button>
+    </form>
+  </section>
+
+  <!-- 📅 Calendario -->
+  <section id="calendar">
+    <div class="calendar-container">
+      <div class="calendar-grid" id="calendar-grid">
+        <!-- Aquí se insertan dinámicamente los días -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ✏️ Modal Editar Tarea -->
+  <div id="edit-modal" class="modal hidden">
+    <div class="modal-content">
+      <h2>Editar Tarea</h2>
+      <form id="edit-form">
+        <label>Nombre:</label>
+        <input type="text" id="edit-text" required>
+
+        <label>Fecha:</label>
+        <input type="date" id="edit-date" required>
+        
+        <label>Hora:</label>
+        <input type="time" id="edit-time">
+
+        <label>Notas:</label>
+        <textarea id="edit-notes"></textarea>
+
+        <select id="edit-tag" required>
+          <option value="personal">Personal</option>
+          <option value="trabajo">Trabajo</option>
+          <option value="escuela">Escuela</option>
+          <option value="otro">Otro</option>
+        </select>
+
+        <div class="modal-buttons">
+          <button type="submit" class="save-btn">Guardar</button>
+          <button type="button" id="cancel-edit" class="cancel-btn">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 🗑️ Modal Confirmar Eliminación -->
+  <div id="confirm-delete-modal" class="modal hidden">
+    <div class="modal-content">
+      <h2>¿Eliminar tarea?</h2>
+      <div class="modal-buttons">
+        <button id="confirm-delete" class="save-btn">Sí</button>
+        <button id="cancel-delete" class="cancel-btn">No</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 🔄 Notificación de nueva versión -->
+  <div id="update-notification" class="hidden update-banner">
+    <span>¡Nueva versión disponible!</span>
+    <button id="reload-btn">Actualizar ahora</button>
+  </div>
+  
+    <!-- 📋 Modal de tareas del día para móviles -->
+  <div id="mobile-day-modal" class="modal hidden">
+    <div class="modal-content">
+      <h2 id="modal-day-title"></h2>
+      <div id="modal-task-list"></div>
+      <div class="modal-buttons">
+        <button id="close-mobile-modal" class="cancel-btn">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
+
+  <noscript>Tu navegador no soporta JavaScript</noscript>
+</body>
+</html>
